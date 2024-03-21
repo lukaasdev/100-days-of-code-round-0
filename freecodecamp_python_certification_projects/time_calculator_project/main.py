@@ -8,21 +8,45 @@ def add_time(start_time, duration, week_day = None):
     start_time_xm = elements[1]
     duration_hours, duration_minutes = duration.split(':')
     
-    # Au 20/03/2024, le calcul des minutes semble être fonctionnel.
-    # TODO : A retester demain pour être 100% sûr.
     # Calcul des minutes
-    temp = int(start_time_minutes) + int(duration_minutes)
-    end_time_minutes = temp if temp < 60 else temp - 60
-    extra_hours = temp % 60
+    temp_minutes = int(start_time_minutes) + int(duration_minutes)
+    end_time_minutes = temp_minutes if temp_minutes < 60 else temp_minutes - 60
+    extra_hours = 0 if temp_minutes < 60 else 1
     end_time_minutes_display = str(end_time_minutes) if end_time_minutes >= 10 else '0' + str(end_time_minutes)
     
     # Calcul des heures
-    temp = 0
-    end_time_hours = 0
-    end_time_xm = 'XM'
-    extra_days = 'none'
+    i = 0
+    temp_hours = int(start_time_hours) + int(duration_hours) + extra_hours
+    while temp_hours > 12:
+        temp_hours -= 12
+        i += 1
+    end_time_hours_display = str(temp_hours) if temp_hours != 0 else str(12)
     
-    print(f'{end_time_hours}:{end_time_minutes_display} {end_time_xm}')
+    # TODO: Reste à déterminer 
+    # end_time_xm : 'AM' ou 'PM'
+    # et extra_days_display : (next day) ou ({extra_days} days later)
+    # le code ci-dessous n'est pas encore fonctionnel.
+    end_time_xm = ''
+    if i % 2 == 0 :
+        end_time_xm = start_time_xm
+    else:
+        if start_time_xm == 'AM':
+            end_time_xm = 'PM' if temp_hours != 0 else 'AM'
+        elif start_time_xm == 'PM':
+            end_time_xm = 'AM' if temp_hours != 0 else 'PM'
+            
+    extra_days = 0
+    extra_days_display = ''
+    # END TODO:
+    
+    if extra_days == 1:
+        extra_days_display = '(next day)'
+    elif extra_days > 1:
+        extra_days_display = f'({str(extra_days)} days later)'
+    
+    print(f'{end_time_hours_display}:{end_time_minutes_display} {end_time_xm} {extra_days_display}')
+    
+    # print(f'{end_time_hours_display}:{end_time_minutes_display} {end_time_xm}')
     
     # DELETE: 2 lignes ci-dessous
     # print(start_time, start_time_hours, start_time_minutes, start_time_xm)
