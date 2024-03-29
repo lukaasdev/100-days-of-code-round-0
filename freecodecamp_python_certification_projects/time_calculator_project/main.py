@@ -2,6 +2,8 @@
 # FREECODECAMP CERTIFICATION
 # TIME CALCULATOR
 
+WEEK_DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+
 def add_time(start_time, duration, week_day = None):
     elements = start_time.split()
     start_time_hours, start_time_minutes = elements[0].split(':')
@@ -17,56 +19,53 @@ def add_time(start_time, duration, week_day = None):
     # Calcul des heures
     i = 0
     temp_hours = int(start_time_hours) + int(duration_hours) + extra_hours
-    while temp_hours > 12:
+    while temp_hours >= 12:
         temp_hours -= 12
         i += 1
     end_time_hours_display = str(temp_hours) if temp_hours != 0 else str(12)
     
-    # TODO: Reste à déterminer 
-    # end_time_xm : 'AM' ou 'PM'
-    # et extra_days_display : (next day) ou ({extra_days} days later)
-    # le code ci-dessous n'est pas encore fonctionnel.
+    # Déterminer 'AM' ou 'PM', extra_days
+    # et les différents affichages (week_day_display et extra_days_display)
+    # NOTE: Attention, code bourrin mais fonctionnel dans les lignes ci-dessous. 
+    # Pourrait clairement être amélioré =D 
     end_time_xm = ''
-    if i % 2 == 0 :
+    if i % 2 == 0:
         end_time_xm = start_time_xm
     else:
         if start_time_xm == 'AM':
-            end_time_xm = 'PM' if temp_hours != 0 else 'AM'
+            end_time_xm = 'PM'
         elif start_time_xm == 'PM':
-            end_time_xm = 'AM' if temp_hours != 0 else 'PM'
+            end_time_xm = 'AM'
             
     extra_days = 0
     extra_days_display = ''
-    # END TODO:
-    
+    if i == 1 and start_time_xm == 'PM':
+        extra_days = 1
+    elif i == 2:
+        extra_days = 1
+    elif i > 1 and i != 2:
+        extra_days = i // 2 + 1
+
     if extra_days == 1:
         extra_days_display = '(next day)'
     elif extra_days > 1:
         extra_days_display = f'({str(extra_days)} days later)'
     
-    print(f'{end_time_hours_display}:{end_time_minutes_display} {end_time_xm} {extra_days_display}')
+    week_day_display = ''
+    if week_day != None:
+        index = WEEK_DAYS.index(week_day.lower())
+        new_index = (index + extra_days) % 7
+        week_day_display = f', {WEEK_DAYS[new_index].capitalize()}'
     
-    # print(f'{end_time_hours_display}:{end_time_minutes_display} {end_time_xm}')
-    
-    # DELETE: 2 lignes ci-dessous
-    # print(start_time, start_time_hours, start_time_minutes, start_time_xm)
-    # print(duration, duration_hours, duration_minutes, '\n')
-
-# Exemples fournis par freeCodeCamp
-add_time('3:00 PM', '3:10')
-# Returns: 6:10 PM
-
-add_time('11:30 AM', '2:32', 'Monday')
-# Returns: 2:02 PM, Monday
-
-add_time('11:43 AM', '00:20')
-# Returns: 12:03 PM
-
-add_time('10:10 PM', '3:30')
-# Returns: 1:40 AM (next day)
-
-add_time('11:43 PM', '24:20', 'tueSday')
-# Returns: 12:03 AM, Thursday (2 days later)
-
-add_time('6:30 PM', '205:12')
-# Returns: 7:42 AM (9 days later)
+    # NOTE: Ici, également, on peut clairement faire mieux pour le résultat à retourner.
+    result = ''
+    if week_day_display == '' and extra_days_display == '':
+        result = f'{end_time_hours_display}:{end_time_minutes_display} {end_time_xm}'
+    elif week_day_display != '' and extra_days_display == '':
+        result = f'{end_time_hours_display}:{end_time_minutes_display} {end_time_xm}{week_day_display}'
+    elif week_day_display == '' and extra_days_display != '':
+        result = f'{end_time_hours_display}:{end_time_minutes_display} {end_time_xm} {extra_days_display}'
+    elif week_day_display != '' and extra_days_display != '':
+        result = f'{end_time_hours_display}:{end_time_minutes_display} {end_time_xm}{week_day_display} {extra_days_display}'
+        
+    return result
