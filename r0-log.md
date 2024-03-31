@@ -22,3 +22,9 @@ Voir tweet [ici](https://twitter.com/lukaas_dev/status/1770905712215949635)
 
 ### R0D27  
 Voir tweet [ici](https://twitter.com/lukaas_dev/status/1773747756869320833)
+
+### R0D28
+Voir tweet [ici](https://twitter.com/lukaas_dev/status/1774052848663204316)
+
+### R0D29  
+Voir tweet [ici](https://twitter.com/lukaas_dev/status/1774568735296143419)
