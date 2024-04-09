@@ -1,5 +1,10 @@
 import numpy as np
 
+# NOTE:
+# Ce code a été validé par les tests fournis par freeCodeCamp,  
+# mais il peut clairement être amélioré, 
+# notamment au niveau des répétions de code 
+# pour calculer les différentes valeurs demandées.
 def calculate(list):
     ERROR_MSG = "List must contain nine numbers."
     calculations = {}
